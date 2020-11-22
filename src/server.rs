@@ -28,7 +28,9 @@ impl Server {
         loop {
             // match is like a switch statement
             match listener.accept() {
-                Ok((stream, addr)) => {}
+                Ok((stream, _)) => {
+                    stream.read();
+                }
                 Err(error) => println!("Failed to establish a connection: {}", error),
             }
         }
