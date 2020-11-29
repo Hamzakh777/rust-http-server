@@ -31,7 +31,12 @@ impl Server {
             match listener.accept() {
                 Ok((mut stream, _)) => {
                     let mut buffer = [0; 1024];
-                    stream.read(&mut buffer);
+                    match stream.read(&mut buffer) {
+                        Ok(_) => {
+                            println!("Received a request: {}", String::from_utf8_lossy(&mut buffer));
+                        }
+                        Err(error) => println!("Failed to read from connection: {}", error)
+                    };
                 }
                 Err(error) => println!("Failed to establish a connection: {}", error),
             }
